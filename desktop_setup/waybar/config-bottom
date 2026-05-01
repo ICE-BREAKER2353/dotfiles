@@ -1,0 +1,58 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 10,
+    "margin-left": 10,
+    "margin-bottom": 0,
+    "margin-right": 10,
+    "spacing": 5, // Gaps between modules (4px)
+    "modules-left": [
+        "custom/weather"
+    ],
+    "modules-center": [
+        // "custom/rofi",
+        // "hyprland/workspaces",
+        //"hyprland/submap",
+        // "temperature",
+        "custom/rofi",
+        "tray"
+        //"idle_inhibitor",
+        //"mpd"
+        // "custom/spotify"
+    ],
+    "modules-right":[
+        "clock#date"
+    ],
+    "custom/rofi": {
+        "format": "",
+        "tooltip": false,
+        "on-click-right": "nwg-drawer",
+        "on-click": "wofi --show drun --style ~/.config/wofi/style.css --allow-images --prompt ' Run:'",
+        "on-click-middle": "pkill -9 wofi"
+    },
+    "clock#1": {
+        "format": " {:%a}",
+        "tooltip": false,
+        "on-click": "gsimplecal"
+    },
+    "clock#2": {
+        "format": " {:%d-%h-%Y}",
+        "tooltip": false,
+        "on-click": "gsimplecal"
+    },
+    "clock#3": {
+        "format": " {:%H:%M:%S %p}",
+        "tooltip": false,
+        "on-click": "gsimplecal"
+    },
+    "custom/weather": {
+        "format": "{}",
+        "format-alt": "{alt}: {}",
+        "format-alt-click": "click-right",
+        "interval": 3600,
+        "exec": "curl -s 'https://wttr.in/?format=1'",
+        //"return-type": "json",
+        // "exec": "~/.config/waybar/modules/weather.sh",
+        "exec-if": "ping wttr.in -c1"
+    },
+}
