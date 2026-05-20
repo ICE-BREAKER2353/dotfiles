@@ -10,11 +10,11 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 local opts = { noremap = true, silent = true }
--- NvimTree
--- vim.api.nvim_set_keymap('n', '<leader>tt', '<cmd>Neotree toggle<CR>', opts)
--- vim.api.nvim_set_keymap('n', '<leader>tf', '<cmd>Neotree focus<CR>', opts)
--- vim.api.nvim_set_keymap('n', '<leader>tc', '<cmd>Neotree current<CR>', opts)
--- vim.api.nvim_set_keymap('n', '<leader>u', '<cmd>UndotreeToggle<CR>', opts)
+-- Neotree
+vim.api.nvim_set_keymap('n', '<leader>tt', '<cmd>Neotree toggle<CR>', opts)
+vim.api.nvim_set_keymap('n', '<leader>tf', '<cmd>Neotree focus<CR>', opts)
+vim.api.nvim_set_keymap('n', '<leader>tc', '<cmd>Neotree current<CR>', opts)
+vim.api.nvim_set_keymap('n', '<leader>u', '<cmd>UndotreeToggle<CR>', opts)
 
 vim.api.nvim_set_keymap('n', '<leader>bp', '<cmd>bprevious<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bn', '<cmd>bnext<CR>', { silent = true })

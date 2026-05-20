@@ -1,20 +1,5 @@
 -- return {
 --   {
---     -- LSP Configuration & Plugins
---     'neovim/nvim-lspconfig',
---     dependencies = {
---       -- Automatically install LSPs to stdpath for neovim
---       'williamboman/mason.nvim',
---       'williamboman/mason-lspconfig.nvim',
---
---       -- Useful status updates for LSP
---       'j-hui/fidget.nvim',
---
---       -- Additional lua configuration, makes nvim stuff amazing
---       'folke/neodev.nvim',
---     },
---   },
---   {
 --     "folke/zen-mode.nvim",
 --     config = function()
 --       require("zen-mode").setup {
@@ -55,100 +40,79 @@
 --       "rcarriga/nvim-notify",
 --     }
 --   },
---   {
---     'akinsho/toggleterm.nvim', version = "*", config = true
---   },
---   {
---     -- Highlight, edit, and navigate code
---     'nvim-treesitter/nvim-treesitter',
---     build = function()
---       pcall(require('nvim-treesitter.install').update { with_sync = true })
---     end,
---       dependencies = {
---         'nvim-treesitter/nvim-treesitter-textobjects',
---       },
---     config = function ()
---       require('user.treesitter')
---     end,
---   },
---   { -- Additional text objects via treesitter
---     'nvim-treesitter',
---   },
---   -- Git related plugins
---   'tpope/vim-fugitive',
---   'tpope/vim-rhubarb',
---   'mfussenegger/nvim-jdtls',
---   'mfussenegger/nvim-dap',
---   {
---     'mfussenegger/nvim-dap-python',
---     ft = "python",
---
---     dependencies = {
---       "mfussenegger/nvim-dap",
---     },
---     -- config = function(_, opts)
---     --   local path = "C:/Users/Amin Said/AppData/Local/nvim-data/mason/packages/debugpy/venv/Scripts"
---     --   require("dap-python").setup(path)
---     -- end,
---   },
---   'rcarriga/cmp-dap',
---   "folke/neodev.nvim",
---   'simrat39/rust-tools.nvim',
---   'xiyaowong/transparent.nvim',
---   {
---     'stevearc/dressing.nvim',
---     opts = {},
---   },
---   'jose-elias-alvarez/null-ls.nvim',
---   'navarasu/onedark.nvim', -- Theme inspired by Atom
---   'Mofiqul/dracula.nvim',
---   'folke/lsp-colors.nvim',
---   {
---     "catppuccin/nvim", name = "catppuccin"
---   },
---   'water-sucks/darkrose.nvim',
---   'rmehri01/onenord.nvim',
---   'tpope/vim-sleuth',          -- Detect tabstop and shiftwidth automatically
---   'mbbill/undotree',
---   -- Fuzzy Finder (files, lsp, etc)
---   {
---     'nvim-telescope/telescope.nvim',
---     branch = 'master',
---     dependencies = {
---       'nvim-lua/plenary.nvim'
---     }
---   },
---   -- Fuzzy Finder Algorithm which dependencies local dependencies to be built. Only load if `make` is available
---   {
---     'nvim-telescope/telescope-fzf-native.nvim',
---     build = 'make',
---     cond = vim.fn.executable 'make' == 1
---   },
---   {
---     'nvim-telescope/telescope-dap.nvim',
---     dependencies = { { 'mfussenegger/nvim-dap' },
---       { 'rcarriga/nvim-dap-ui' }, { 'Pocco81/DAPInstall.nvim', opt = true } },
---     config = [[require('dap.config')]],
---     ft = { 'java', 'python', 'rust', 'go' }
---   },
---   'leoluz/nvim-dap-go',
---   {
---     'nvim-orgmode/orgmode',
---     config = function()
---       require('orgmode').setup {}
---     end
---   },
---   {
---     "folke/which-key.nvim",
---     config = function()
---       vim.o.timeout = true
---       vim.o.timeoutlen = 300
---       require("which-key").setup {
---         -- your configuration comes here
---         -- or leave it empty to use the default settings
---         -- refer to the configuration section below
---       }
---     end
---   },
---   'onsails/lspkind.nvim',
--- }
+local function gh(repo) return 'https://github.com/' .. repo end
+-- Useful plugins
+vim.pack.add {
+	-- Toggleterm which is spawning a terminal in nvim
+	{ src = gh('akinsho/toggleterm.nvim') },
+	-- Git related plugins
+	{ src = gh('tpope/vim-fugitive') },
+	{ src = gh('tpope/vim-rhubarb') },
+	-- theming and colorschemes
+	{ src = gh('xiyaowong/transparent.nvim') },
+	{ src = gh('stevearc/dressing.nvim') },
+	{ src = gh('navarasu/onedark.nvim') },
+	{ src = gh('Mofiqul/dracula.nvim') },
+	{ src = gh('catppuccin/nvim') },
+	{ src = gh('water-sucks/darkrose.nvim') },
+	{ src = gh('rmehri01/onenord.nvim') },
+	-- Other useful plugins
+	{ src = gh('jose-elias-alvarez/null-ls.nvim') },
+	{ src = gh('tpope/vim-sleuth') },
+	{ src = gh('mbbill/undotree') },
+	{ src = gh('nvim-orgmode/orgmode') },
+
+}
+
+-- Toggleterm setup
+
+local status_ok, toggleterm = pcall(require, "toggleterm")
+if not status_ok then
+	return
+end
+
+toggleterm.setup {
+	size = 20,
+	open_mapping = [[<m-0>]],
+	hide_numbers = true,
+	shade_filetypes = {},
+	shade_terminals = true,
+	shading_factor = 2,
+	start_in_insert = true,
+	insert_mappings = true,
+	persist_size = true,
+	direction = "float",
+	close_on_exit = true,
+	shell = vim.o.shell,
+	float_opts = {
+		border = "curved",
+		winblend = 0,
+		highlights = {
+			border = "Normal",
+			background = "Normal",
+		},
+	},
+}
+
+-- Transparent setup
+
+require("transparent").setup({
+	groups = { -- table: default groups
+		'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+		'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+		'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+		'SignColumn', 'CursorLineNr', 'EndOfBuffer',
+	},
+	extra_groups = { -- table/string: additional groups that should be cleared
+		-- In particular, when you set it to 'all', that means all available groups
+
+		-- example of akinsho/nvim-bufferline.lua
+		"BufferLineTabClose",
+		"BufferlineBufferSelected",
+		"BufferLineFill",
+		"BufferLineBackground",
+		"BufferLineSeparator",
+		"BufferLineIndicatorSelected",
+	},
+	exclude_groups = {}, -- table: groups you don't want to clear
+})

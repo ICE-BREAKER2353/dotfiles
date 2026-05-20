@@ -1,10 +1,16 @@
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
---[[ local lspconfig = require("lspconfig")
-local util = require("lspconfig/util") ]]
+vim.pack.add {
+	{ src = 'https://github.com/neovim/nvim-lspconfig' },
+	{ src = 'https://github.com/williamboman/mason.nvim' },
+	{ src = 'https://github.com/williamboman/mason-lspconfig.nvim' },
+	{ src = 'https://github.com/j-hui/fidget.nvim' },
+	{ src = 'https://github.com/folke/neodev.nvim' },
+	{ src = 'https://github.com/mfussenegger/nvim-jdtls' },
+	{ src = 'https://github.com/SmiteshP/nvim-navic' },
+	{ src = 'https://github.com/SmiteshP/nvim-navbuddy' },
+	{ src = 'https://github.com/MunifTanjim/nui.nvim' },
+	{ src = 'https://github.com/folke/lsp-colors.nvim' },
+}
+
 local servers = {
   clangd = {},
   -- gopls = {},
@@ -25,8 +31,8 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 require('mason').setup()
 
 -- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
-local lspconfig = require 'lspconfig'
+local mason_lspconfig = require('mason-lspconfig')
+-- local lspconfig = require('lspconfig')
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
@@ -85,12 +91,41 @@ local on_attach = function(_, bufnr)
 end
 
 for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
-  lspconfig[server_name].setup {
+  vim.lsp.config(server_name, {
     capabilities = capabilities,
     on_attach = on_attach,
     settings = servers[server_name],
-  }
+  })
+
+  vim.lsp.enable(server_name)
 end
+
+vim.lsp.config('lua_ls',{
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using
+        -- (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {
+          'vim',
+          'require'
+        },
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+})
 
 --[[ lspconfig.rust_analyzer.setup({
   on_attach = on_attach,

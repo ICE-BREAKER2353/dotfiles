@@ -5,6 +5,8 @@ vim.pack.add {
   { src = 'https://github.com/mason-org/mason.nvim'},
   { src = 'https://github.com/jay-babu/mason-nvim-dap.nvim'},
   { src = 'https://github.com/leoluz/nvim-dap-go'},
+  { src = 'https://github.com/Pocco81/DAPInstall.nvim'},
+  { src = 'https://github.com/rcarriga/cmp-dap'},
 }
 
 local dap_status_ok, dap = pcall(require, "dap")

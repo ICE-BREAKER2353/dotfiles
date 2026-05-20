@@ -1,3 +1,7 @@
+vim.pack.add{
+	{src = 'https://github.com/stevearc/dressing.nvim'},
+}
+
 require('dressing').setup({
   input = {
     -- Set to false to disable the vim.ui.input implementation
